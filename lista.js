@@ -1,4 +1,4 @@
-// Carrega as tarefas salvas ao abrir a página
+
 window.onload = carregarTarefas
 
 function adicionarTarefa() {
@@ -25,16 +25,27 @@ function criarTarefaNaTela(texto, concluida, dataHora) {
         li.classList.add('concluida')
     }
 
+    const botaoUrgente = document.createElement('span')
+    botaoUrgente.textContent = '🔺'
+    botaoUrgente.classList.add('urgente')
+    botaoUrgente.style.marginLeft = '10px'
+    botaoUrgente.style.cursor = 'pointer'
+    botaoUrgente.onclick = function (event) {
+        event.stopPropagation()
+        adicionarUrgente(texto)
+    }
+
     const botaoExcluir = document.createElement('span')
     botaoExcluir.textContent = '❌'
     botaoExcluir.classList.add('excluir')
-
+    botaoExcluir.style.marginLeft = '10px'
     botaoExcluir.onclick = function (event) {
         event.stopPropagation()
         li.remove()
         salvarTarefas()
     }
 
+    li.appendChild(botaoUrgente)
     li.appendChild(botaoExcluir)
 
     li.onclick = function (event) {
@@ -47,15 +58,39 @@ function criarTarefaNaTela(texto, concluida, dataHora) {
     document.getElementById('lista-tarefas').appendChild(li)
 }
 
+function adicionarUrgente(texto) {
+    const li = document.createElement('li')
+    li.textContent = texto
+
+    const btnConcluir = document.createElement('span')
+    btnConcluir.textContent = '✔️'
+    btnConcluir.style.marginLeft = '10px'
+    btnConcluir.style.cursor = 'pointer'
+    btnConcluir.onclick = function () {
+        li.classList.toggle('concluida')
+    }
+
+    const btnExcluir = document.createElement('span')
+    btnExcluir.textContent = '❌'
+    btnExcluir.style.marginLeft = '10px'
+    btnExcluir.style.cursor = 'pointer'
+    btnExcluir.onclick = function () {
+        li.remove()
+    }
+
+    li.appendChild(btnConcluir)
+    li.appendChild(btnExcluir)
+
+    document.getElementById('lista-urgentes').appendChild(li)
+}
+
 function salvarTarefas() {
     const tarefas = []
     document.querySelectorAll('#lista-tarefas li').forEach(tarefa => {
-        const texto = tarefa.querySelectorAll('span').textContent.trim()
-        const dataHora = tarefa.querySelector('.data-hora').textContent
+        const texto = tarefa.firstChild.textContent.trim()
         tarefas.push({
             texto: texto,
-            concluida: tarefa.classList.contains('concluida'),
-            dataHora: dataHora
+            concluida: tarefa.classList.contains('concluida')
         })
     })
 
@@ -67,7 +102,7 @@ function carregarTarefas() {
     if (tarefasSalvas) {
         const lista = JSON.parse(tarefasSalvas)
         lista.forEach(tarefa => {
-            criarTarefaNaTela(tarefa.texto, tarefa.concluida, tarefa.dataHora)
+            criarTarefaNaTela(tarefa.texto, tarefa.concluida)
         })
     }
 }

@@ -7,7 +7,12 @@
     <link rel="stylesheet" href="lista.css">
 </head>
 <body>
-    <div class="container">
+     <div class = "layout">
+        <div class="quadro-urgentes">
+            <h2>Urgentes</h2>
+            <ul id="lista-urgentes"></ul>
+        </div>  
+        <div class="container">
         <h1>Minha To-Do List</h1>
         <div class="entrada">
             <input type="text" id="nova-tarefa" placeholder="Digite uma terefa...">
@@ -19,7 +24,10 @@
             <button onclick="filtrar('pendente', this)">Pendentes</button>
             <button onclick="filtrar('concluidas', this)">Concluidas</button>
         </div>
+    </div>
+   
 
     <script src="lista.js"></script>
 </body>
+
 </html>

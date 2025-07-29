@@ -5,6 +5,7 @@ body{
     display: flex;
     justify-content: center;
     padding: 40px;
+    min-height: 100vh;
 }
 .container{
     background-color: #333;
@@ -97,4 +98,33 @@ li:hover{
     font-size: 12px;
     color: #bbb;
     margin-top: 4px;
+}
+.layout{
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+.quadro-urgentes{
+    width: 250px;
+    background-color: #661414;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    height: fit-content;
+    box-shadow: 0 0 10px #000;
+}
+.quadro-urgentes h2{ 
+    margin-top: 0;
+    text-align: center;
+}
+#lista-urgentes{
+    list-style: none;
+    padding: 0;
+}
+#lista-urgentes li{
+    background-color: #aa1a1a;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-weight: bold;
 }
