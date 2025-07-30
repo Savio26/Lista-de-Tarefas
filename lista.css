@@ -4,6 +4,7 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     justify-content: center;
+    align-items: center;
     padding: 40px;
     min-height: 100vh;
 }
@@ -39,9 +40,13 @@ button{
     color: white;
     font-size: 16px;
     cursor: pointer;
+     box-shadow: 0 0 10px #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 button:hover{
     background-color: #45a049;
+     transform: translateY(-5px);
+    box-shadow: 0 0 20px #1a3c66aa;
 }
 .u1{
     list-style: none;
@@ -62,6 +67,8 @@ li:hover{
     text-decoration: line-through;
     color: #888;
     background-color: #222;
+    box-shadow: 0 0 10px #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .excluir{
     float: right;
@@ -78,6 +85,7 @@ li:hover{
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .filtros button{
     background-color: #666;
@@ -101,8 +109,10 @@ li:hover{
 }
 .layout{
     display: flex;
+    justify-content: center;
+    align-items: flex-start;
     gap: 20px;
-    width: 100%;
+    width: auto;
 }
 .quadro-urgentes{
     width: 250px;
@@ -112,6 +122,12 @@ li:hover{
     border-radius: 12px;
     height: fit-content;
     box-shadow: 0 0 10px #000;
+     box-shadow: 0 0 10px #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.quadro-urgentes:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px #1a3c66aa;
 }
 .quadro-urgentes h2{ 
     margin-top: 0;
@@ -127,4 +143,43 @@ li:hover{
     margin-bottom: 10px;
     border-radius: 6px;
     font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+.quadro-relogio{
+    width: 250px;
+    background-color: #1a3c66;
+    color: white;
+    padding: 20px;
+    border-radius: 12px;
+    height: fit-content;
+    box-shadow: 0 0 10px #000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.quadro-relogio:hover{
+    transform: translateY(-5px);
+    box-shadow: 0 0 20px #1a3c66aa;
+}
+.quadro-relogio h2{
+    margin-top: 0;
+    text-align: center;
+}
+.hora-digital{
+    font-size: 28px;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+.limpar-tudo {
+    margin-left: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    color: red;
+    transition: transform 0.2s;
+}
+
+.limpar-tudo:hover {
+    transform: scale(1.2);
+    color: darkred;
 }

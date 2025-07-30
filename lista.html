@@ -18,16 +18,34 @@
             <input type="text" id="nova-tarefa" placeholder="Digite uma terefa...">
             <button onclick="adicionarTarefa()">Adicionar</button>
         </div>
-        <ul id="lista-tarefas"></ul>
+        
         <div class="filtros" id="filtros">
             <button onclick="filtrar('todas', this)">Todas</button>
             <button onclick="filtrar('pendente', this)">Pendentes</button>
             <button onclick="filtrar('concluidas', this)">Concluidas</button>
+            <span class="limpar-tudo" onclick="removerTodasTarefas()" title="Remover todas as tarefas">🗑️</span>
         </div>
+        <ul id="lista-tarefas"></ul>
+        
+    </div>
+    <div class="quadro-relogio">
+        <h2>Relógio Digital</h2>
+        <div id="relogio" class="hora-digital"></div>
     </div>
    
-
     <script src="lista.js"></script>
+    <script>
+        function atualizarrelogio(){
+            const agora = new Date()
+            const hora = agora.getHours().toString().padStart(2, "0")
+            const minuto = agora.getMinutes().toString().padStart(2, "0")
+            const segundo = agora.getSeconds().toString().padStart(2, "0")
+            document.getElementById('relogio').textContent = `${hora}:${minuto}:${segundo}`
+        }
+
+        setInterval(atualizarrelogio, 1000)
+
+    </script>
 </body>
 
 </html>

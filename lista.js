@@ -1,6 +1,4 @@
 
-window.onload = carregarTarefas
-
 function adicionarTarefa() {
     const input = document.getElementById('nova-tarefa')
     const texto = input.value.trim()
@@ -58,9 +56,14 @@ function criarTarefaNaTela(texto, concluida, dataHora) {
     document.getElementById('lista-tarefas').appendChild(li)
 }
 
-function adicionarUrgente(texto) {
+function adicionarUrgente(texto, dataHora =new Date().toISOString()) {
     const li = document.createElement('li')
     li.textContent = texto
+    li.setAttribute('data-hora', dataHora)
+
+    const tempoElemento = document.createElement('div')
+    tempoElemento.className = 'data-hora'
+    tempoElemento.textContent = calcularTempoDecorrido(dataHora)
 
     const btnConcluir = document.createElement('span')
     btnConcluir.textContent = '✔️'
@@ -76,18 +79,19 @@ function adicionarUrgente(texto) {
     btnExcluir.style.cursor = 'pointer'
     btnExcluir.onclick = function () {
         li.remove()
+        salvarUrgentes()
     }
-
+    li.appendChild(tempoElemento)
     li.appendChild(btnConcluir)
     li.appendChild(btnExcluir)
 
     document.getElementById('lista-urgentes').appendChild(li)
+    salvarUrgentes()
 }
-
 function salvarTarefas() {
     const tarefas = []
     document.querySelectorAll('#lista-tarefas li').forEach(tarefa => {
-        const texto = tarefa.firstChild.textContent.trim()
+        const texto = tarefa.childNodes[0].nodeValue.trim()  // Correto: primeiro texto antes dos spans
         tarefas.push({
             texto: texto,
             concluida: tarefa.classList.contains('concluida')
@@ -95,6 +99,32 @@ function salvarTarefas() {
     })
 
     localStorage.setItem('minhasTarefas', JSON.stringify(tarefas))
+}
+function salvarUrgentes() {
+    const urgente = []
+    document.querySelectorAll('#lista-urgentes li').forEach(tarefa => {
+        const texto = tarefa.firstChild.textContent.trim()
+        const tempo = tarefa.getAttribute('data-hora') || new Date().toISOString()
+        urgente.push({
+            texto: texto,
+            dataHora: tempo
+        })
+    })
+    localStorage.setItem('tarefasUrgentes', JSON.stringify(urgente))
+}
+window.onload = ()=> {
+    carregarTarefas()
+    carregarUrgentes()
+
+}
+function carregarUrgentes(){
+    const urgenteSalvas = localStorage.getItem('tarefasUrgentes')
+    if (urgenteSalvas){
+        const lista = JSON.parse(urgenteSalvas)
+        lista.forEach(item =>{
+            adicionarUrgente(item.texto, item.dataHora)
+        })
+    }
 }
 
 function carregarTarefas() {
@@ -129,5 +159,34 @@ function filtrar(tipo, botaoClicado) {
 
     if (botaoClicado) {
         botaoClicado.classList.add('ativo')
+    }
+}
+function calcularTempoDecorrido(dataHora){
+    const agora = new Date()
+    const inicio = new Date(dataHora)
+    const diffMs = agora - inicio
+
+    const minutos = Math.floor(diffMs / 60000)
+    const horas = Math.floor(minutos / 60)
+    const dias = Math.floor(horas / 24)
+
+    if (dias > 0) return`${dias}d ${horas % 24}h`
+    if (horas > 0) return `${horas}h ${minutos % 60}m`
+    return `${minutos}m`
+}
+setInterval(()=> {
+    document.querySelectorAll('#lista-urgentes li').forEach(li =>{
+        const dataHora = li.getAttribute('data-hora')
+        const tempoEl = li.querySelector('.data-hora')
+        if(tempoEl && dataHora){
+            tempoEl.textContent = calcularTempoDecorrido(dataHora)
+
+        }
+    })
+},60000)
+function removerTodasTarefas() {
+    if (confirm("Tem certeza que deseja remover todas as tarefas?")) {
+        document.getElementById('lista-tarefas').innerHTML = ''
+        localStorage.removeItem('minhasTarefas')
     }
 }
